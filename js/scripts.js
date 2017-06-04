@@ -16,7 +16,7 @@ ws.onmessage = function(msg) {
 	   alert("Invalid tokin");
    }else{
 	   alert(strresp);
-	   ws.send(JSON.stringify({authorize:'1aStI5HCcty55Ly10'}));
+	   ws.send(JSON.stringify({ticks:'R_100'}));
 	  // if(~strresp.indexOf("loginid")){
 		  // a().send(JSON.stringify({ticks:'R_100'}));
 	   //}else{
