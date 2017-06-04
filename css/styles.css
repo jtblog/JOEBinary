@@ -1,4 +1,13 @@
 body
 {
-  font-size: 40pt;
+  font-size: 10pt;
+}
+
+#main-content{
+    margin: 10% auto;
+    width: 240px;
+}
+
+footer{
+    height: 20px; background-color: chocolate; bottom:0; color:#FFF; text-align: center;
 }

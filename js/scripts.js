@@ -1,6 +1,5 @@
 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
-
-//var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
+var syms = [];
 
 ws.onopen = function(evt) {
     ws.send(JSON.stringify({authorize:'1aStI5HCcty55Ly'}));
@@ -15,13 +14,23 @@ ws.onmessage = function(msg) {
    if(~strresp.indexOf("The token is invalid")){
 	   alert("Invalid tokin");
    }else{
-	   alert(strresp);
-	   ws.send(JSON.stringify({ticks:'R_100'}));
-	  // if(~strresp.indexOf("loginid")){
-		  // a().send(JSON.stringify({ticks:'R_100'}));
-	   //}else{
-		//   alert(strresp);
-	  // }
+	  	if(~strresp.indexOf("loginid")){
+	  		//Get active symbols
+	  		ws.send(JSON.stringify({active_symbols:'full'}));
+	   	}else{
+	   		if(~strresp.indexOf("active_symbols")){
+	   			var active_syms = data.active_symbols;
+	   		
+	   			for (var i = 0; i < active_syms.length; i++) { 
+			    	if(active_syms[i].symbol_type == "forex"){
+                 		syms.push(active_syms[i].symbol);
+                   	}
+				}
+				ws.send(JSON.stringify({ticks: JSON.stringify(syms)}));
+				//alert(JSON.stringify(syms));
+	   		}
+	   		
+	  	}
 	   //var loginid = data.authorize.loginid;
    }
 };
