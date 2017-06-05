@@ -1,6 +1,12 @@
 <html dir="ltr">
   <head>
     <link href="css/styles.css" rel="stylesheet">
+        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/canvasjs.min.js"></script>
+
+        <link href="css/bootstrap-select.min.css" type="text/css" rel="stylesheet" />
 	   
      <title>A Joseph T. Obagbemisoye (Binary.com) bot</title>
   </head>
@@ -16,8 +22,8 @@
       <div id="ta" style='width: 100%;'>
 
         <div style='width: 100%;'>
-            <select id="select_pair" style='width: 100%; background-color: chocolate; bottom:0; color:#FFF; text-align: center;'>
-                <option value="select_pair" selected>Select Pair</option>
+            <select id="select_pair" size='3' style='width: 100%; background: transparent; text-align: center; border-radius: 5px' onchange='onChanged()'>
+                
             </select>
         </div>
           

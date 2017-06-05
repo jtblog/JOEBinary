@@ -20,7 +20,9 @@ ws.onmessage = function(msg) {
 		document.getElementById("ta").style.visibility = "hidden";
 		alert("Invalid tokin");
    }else{
+   		
 	  	if(~strresp.indexOf("loginid")){
+	  		//Logged In
 	  		document.getElementById("form").style.visibility = "hidden";
 	  		document.getElementById("ta").style.visibility = "visible";
 
@@ -32,20 +34,23 @@ ws.onmessage = function(msg) {
 	   		if(~strresp.indexOf("active_symbols")){
 	   			var active_syms = data.active_symbols;
 	   		
+	   			var cb = "";
 	   			for (var i = 0; i < active_syms.length; i++) { 
-	   				var s = active_syms[i].symbol;
-			    	
-                 		syms.push(s);
+	   					//if(active_syms[i].symbol.toString().match(/\d+/g) == null){
+	   						cb = cb + '<option value ="' + i + '" selected=false >' + active_syms[i].symbol.toString() + '</option>' + '\n';
+	   					//}
+
+                 		syms.push(active_syms[i].symbol);
                  		var cp = {"epoch": [], "quote": []};
                  		currency_pairs.push(cp);
                  		ws.send(JSON.stringify({ticks: active_syms[i].symbol}));
 				}
-				
+						document.getElementById("select_pair").innerHTML = cb;
+
 	   		}else{
 	   			if(~strresp.indexOf("epoch")){
 	   				if(data.msg_type == "tick"){
 	   					process(data);
-	   					//alert(JSON.stringify(currency_pairs));
                 	}
 	   			}else if(~strresp.indexOf("This market is presently closed.")){
 	   				//data.echo_req.ticks[0];
@@ -74,3 +79,9 @@ function process(data){
 
     //alert(JSON.stringify(currency_pairs));
 }
+
+function onChanged(event){
+        var user_options = document.getElementById("select_pair");
+        var selected_option = user_options.options[user_options.selectedIndex].text;
+        //alert(selected_option);
+	}
