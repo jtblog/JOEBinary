@@ -1,3 +1,19 @@
+/*
+$.ajaxPrefilter(function(options) {
+    if (options.crossDomain && jQuery.support.cors) {
+    	options.crossDomain ={
+    		crossDomain: true
+  		};
+  		
+    	//options.xhrFields = {
+    		//withCredentials: true
+  		//};
+  		
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+});
+*/
+
 document.getElementById("ta").style.visibility = "hidden";
 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
 var syms = [];
@@ -5,9 +21,32 @@ var currency_pairs = [];
 //var d = new Date(1496610240);
 //alert(d.toString());
 
+//document.domain = 'https://billing.iqoption.com';
+/*
+$.ajax({
+  type: "POST",
+  url: 'https://iqoption.com/api/login',
+  crossDomain: true,
+  //header: {'Access-Control-Allow-Origin': 'https://billing.iqoption.com'},
+  data: {"email": "jtob91@yahoo.com", "password": "06143460AI"},
+  	success: function( data ) {
+  		//alert(JSON.stringify(document.cookie));
+  		//$( ".result" ).html( data );
+	},
+	error: function( data ) {
+  		//alert(JSON.stringify(data));
+	},
+  dataType: "jsonp"
+}).done(function (data, textStatus, xhr) { 
+    alert(JSON.stringify(xhr.getAllResponseHeaders())); 
+    //if(~(JSON.stringify(xhr.getAllResponseHeader()).indexOf("ssid")))
+    //	alert('');
+});;
+*/
+
+
 ws.onopen = function(evt) {
-    //ws.send(JSON.stringify({authorize:'1aStI5HCcty55Ly'}));
-	//ws.send(JSON.stringify({authorize:'1aStI5HCcty55Ly10'}));
+	                                                                                                                
 };
 
 ws.onmessage = function(msg) {
@@ -74,10 +113,10 @@ function process(data){
 	var sym = data.tick.symbol;
 	var i = syms.indexOf(sym);
 
+	//if()
+
 	currency_pairs[i].epoch.push(epoch);
     currency_pairs[i].quote.push(quote);
-
-    //alert(JSON.stringify(currency_pairs));
 }
 
 function onChanged(event){
