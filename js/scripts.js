@@ -16,6 +16,7 @@ $.ajaxPrefilter(function(options) {
 
 document.getElementById("ta").style.visibility = "hidden";
 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
+var btoken = document.getElementById("_login-input").value;
 var syms = [];
 var currency_pairs = [];
 //var d = new Date(1496610240);
@@ -57,7 +58,7 @@ ws.onmessage = function(msg) {
    if(~strresp.indexOf("The token is invalid")){
 	   	document.getElementById("form").style.visibility = "visible";
 		document.getElementById("ta").style.visibility = "hidden";
-		alert("Invalid tokin");
+		alert("Invalid tokin: " + btoken);
    }else{
    		
 	  	if(~strresp.indexOf("loginid")){
@@ -103,7 +104,7 @@ ws.onmessage = function(msg) {
 };
 
 function authenticate(){
-	ws.send(JSON.stringify({authorize:'1aStI5HCcty55Ly'}));
+	ws.send(JSON.stringify({authorize: btoken}));
 }
 
 function process(data){
