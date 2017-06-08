@@ -16,7 +16,7 @@ $.ajaxPrefilter(function(options) {
 
 document.getElementById("ta").style.visibility = "hidden";
 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
-var btoken = document.getElementById("_login-input").value;
+var btoken = document.getElementById("_login-input0").value;
 var syms = [];
 var currency_pairs = [];
 //var d = new Date(1496610240);
