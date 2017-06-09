@@ -104,7 +104,8 @@ ws.onmessage = function(msg) {
 };
 
 function authenticate(){
-	ws.send(JSON.stringify({authorize: btoken}));
+	//ws.send(JSON.stringify({authorize: btoken}));
+	showAndroidToast(btoken);
 }
 
 function process(data){
@@ -125,3 +126,7 @@ function onChanged(event){
         var selected_option = user_options.options[user_options.selectedIndex].text;
         //alert(selected_option);
 	}
+	
+function showAndroidToast(toast) {
+    Android.showToast(toast);
+}
