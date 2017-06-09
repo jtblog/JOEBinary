@@ -105,7 +105,7 @@ ws.onmessage = function(msg) {
 
 function authenticate(){
 	//ws.send(JSON.stringify({authorize: btoken}));
-	showAndroidToast(btoken);
+	showAndroidToast('Worked');
 }
 
 function process(data){
