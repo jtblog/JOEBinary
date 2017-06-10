@@ -15,9 +15,15 @@ $.ajaxPrefilter(function(options) {
 */
 
 document.getElementById("ta").style.visibility = "hidden";
-var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
+
+var ws_bin = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
+var ws_iqoption = new WebSocket('wss://iqoption.com/echo/websocket');
+
 var btoken = document.getElementById("_login-input0").value;
+var ssid = document.getElementById("_login-input1").value;
+
 var syms = [];
+
 var currency_pairs = [];
 //var d = new Date(1496610240);
 //alert(d.toString());
@@ -45,12 +51,24 @@ $.ajax({
 });;
 */
 
-
-ws.onopen = function(evt) {
-	                                                                                                                
+ws_iqoption.onopen = function(evt) {
+	
 };
 
-ws.onmessage = function(msg) {
+ws_iqoption.onmessage = function(msg) {
+   var data = JSON.parse(msg.data);
+   if(data.name != 'timeSync'){
+	   var strresp = JSON.stringify(data);
+   		alert(strresp);
+   }
+   
+}
+
+ws_bin.onopen = function(evt) {
+	
+};
+
+ws_bin.onmessage = function(msg) {
    var data = JSON.parse(msg.data);
    
    var strresp = JSON.stringify(data);
@@ -67,7 +85,7 @@ ws.onmessage = function(msg) {
 	  		document.getElementById("ta").style.visibility = "visible";
 
 	  		//Get active symbols
-	  		ws.send(JSON.stringify({active_symbols:'full'}));
+	  		ws_bin.send(JSON.stringify({active_symbols:'full'}));
 	   	}else{
 
 	   		//Subscribe to active symbols
@@ -83,7 +101,7 @@ ws.onmessage = function(msg) {
                  		syms.push(active_syms[i].symbol);
                  		var cp = {"epoch": [], "quote": []};
                  		currency_pairs.push(cp);
-                 		ws.send(JSON.stringify({ticks: active_syms[i].symbol}));
+                 		ws_bin.send(JSON.stringify({ticks: active_syms[i].symbol}));
 				}
 						document.getElementById("select_pair").innerHTML = cb;
 
@@ -104,7 +122,11 @@ ws.onmessage = function(msg) {
 };
 
 function authenticate(){
-	//ws.send(JSON.stringify({authorize: btoken}));
+	//ws_bin.send(JSON.stringify({authorize: btoken}));
+	if(!(ssid == "") || !(ssid == null)){
+		ws_iqoption.send(JSON.stringify({'msg': ssid, 'name': 'ssid'}));
+	}
+		
 	showAndroidToast('Worked');
 }
 
