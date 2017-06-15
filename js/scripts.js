@@ -22,8 +22,6 @@ var ws_bin = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
 var syms = [];
 
 var currency_pairs = [];
-//var d = new Date(1496610240);
-//alert(d.toString());
 
 //document.domain = 'https://billing.iqoption.com';
 /*
@@ -133,6 +131,7 @@ function showAndroidToast(toast) {
 }
 
 function sync_tick(symbol, epoch, quote){
-	//alert(epoch);
-	Android.tick(symbol, epoch, quote);
+	var d = new Date(1496610240);
+
+	Android.tick(symbol, d.toString(), quote);
 }
