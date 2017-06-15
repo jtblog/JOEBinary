@@ -55,64 +55,44 @@ ws_bin.onopen = function(evt) {
 ws_bin.onmessage = function(msg) {
    var data = JSON.parse(msg.data);
    var strresp = JSON.stringify(data);
-   var err = data.error;
    
-   if(!(err == null)){
+   if(!(data.error == null)){
+	   var err = data.error;
+	   
 	   	document.getElementById("form").style.visibility = "visible";
 		document.getElementById("ta").style.visibility = "hidden";
 		
-		alert(data.error.code);
-		showAndroidToast(data.error.code);
+		//alert(data.error.message);
+		showAndroidToast(data.error.message);
    }else{
-	   var lid = data.authorize.loginid;
 	   
-	   if(!(lid == null || lid == "")){
-		   ws_bin.send(JSON.stringify({"asset_index" : 1}));
-	   }else{
-		   alert(strresp);
-	   }
+	   	if(!(data.tick == null)){
+			//alert(strresp);
+	   		process(data);
+		}
 	   
-	   alert(strresp);
-	   
-	   /*
-	   if(strresp.indexOf("loginid") > -1){
-	  		//Logged In
-	  		document.getElementById("form").style.visibility = "hidden";
-	  		document.getElementById("ta").style.visibility = "visible";
+		if(!(data.active_symbols == null)){
+		var atv_syms = data.active_symbols;
+			var cb = "";
+	   		for (var i = 0; i < atv_syms.length; i++) { 
+	   			cb = cb + '<option value ="' + i + '" >' + atv_syms[i].symbol.toString() + '</option>' + '\n';
+				syms.push(atv_syms[i].symbol);
+                var cp = {"symbol" : '' + atv_syms[i].symbol + '', "epoch" : [], "quote" : []};
+                currency_pairs.push(cp);
+			}
+		
+		ws_bin.send('{"ticks" : ' + JSON.stringify(syms) + '}');
+		document.getElementById("select_pair").innerHTML = cb;
 
-	  		//Get active symbols
-	  		
-	   	}else{
-
-	   		//Subscribe to active symbols
-	   		if(strresp.indexOf("active_symbols") > -1){
-	   			var active_syms = data.active_symbols;
-	   		
-	   			var cb = "";
-	   			for (var i = 0; i < active_syms.length; i++) { 
-	   					if(active_syms[i].symbol.toString().indexOf("fx") > -1){
-	   						cb = cb + '<option value ="' + i + '" >' + active_syms[i].symbol.toString() + '</option>' + '\n';
-							syms.push(active_syms[i].symbol);
-                 			var cp = {"epoch": [], "quote": []};
-                 			currency_pairs.push(cp);
-							ws_bin.send(JSON.stringify({ticks: active_syms[i].symbol}));
-	   					}
-				}
-						document.getElementById("select_pair").innerHTML = cb;
-
-	   		}else{
-	   			if(strresp.indexOf("epoch") > -1){
-	   				if(data.msg_type == "tick"){
-						alert(strresp);
-	   					//process(data);
-                	}
-	   			}else if(~strresp.indexOf("This market is presently closed.")){
-	   				//data.echo_req.ticks[0];
-	   			}
-	   				
-	   		}
-	   		
-	  	}*/
+		}else{
+			var lid = data.authorize.loginid;
+   			if(!(lid == null)){
+	   			ws_bin.send('{"active_symbols" : "brief"}');
+				$('#form').remove();
+	  			document.getElementById("ta").style.visibility = "visible";
+			}
+		}
+		
    }
    
 };
@@ -120,7 +100,8 @@ ws_bin.onmessage = function(msg) {
 function authenticate(){
 	var btoken = document.getElementById("_login-input0").value;
 	if(btoken != ""){
-		ws_bin.send(JSON.stringify({authorize: btoken}));
+		var msg = '{"authorize" : "' + btoken + '"}';
+		ws_bin.send(msg);
 	}else{
 		alert('Empty token!!!');
 		showAndroidToast('Empty token!!!');
@@ -133,10 +114,12 @@ function process(data){
 	var epoch = data.tick.epoch;
 	var quote = data.tick.quote;
 	var sym = data.tick.symbol;
+	sync_tick(sym, epoch, quote);
 	var i = syms.indexOf(sym);
 
 	currency_pairs[i].epoch.push(epoch);
     currency_pairs[i].quote.push(quote);
+	//alert(JSON.stringify(currency_pairs[i]));
 }
 
 function onChanged(event){
@@ -147,4 +130,9 @@ function onChanged(event){
 	
 function showAndroidToast(toast) {
     Android.showToast(toast);
+}
+
+function sync_tick(symbol, epoch, quote){
+	//alert(epoch);
+	Android.tick(symbol, epoch, quote);
 }
