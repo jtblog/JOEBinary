@@ -17,10 +17,7 @@ $.ajaxPrefilter(function(options) {
 document.getElementById("ta").style.visibility = "hidden";
 
 var ws_bin = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
-var ws_iqoption = new WebSocket('wss://iqoption.com/echo/websocket');
-
-var btoken = document.getElementById("_login-input0").value;
-var ssid = document.getElementById("_login-input1").value;
+//var ws_iqoption = new WebSocket('wss://eu.iqoption.com/echo/websocket');
 
 var syms = [];
 
@@ -51,64 +48,63 @@ $.ajax({
 });;
 */
 
-ws_iqoption.onopen = function(evt) {
-	
-};
-
-ws_iqoption.onmessage = function(msg) {
-   var data = JSON.parse(msg.data);
-   if(data.name != 'timeSync'){
-	   var strresp = JSON.stringify(data);
-   		alert(strresp);
-   }
-   
-}
-
 ws_bin.onopen = function(evt) {
 	
 };
 
 ws_bin.onmessage = function(msg) {
    var data = JSON.parse(msg.data);
-   
    var strresp = JSON.stringify(data);
+   var err = data.error;
    
-   if(~strresp.indexOf("The token is invalid")){
+   if(!(err == null)){
 	   	document.getElementById("form").style.visibility = "visible";
 		document.getElementById("ta").style.visibility = "hidden";
-		alert("Invalid tokin: " + btoken);
+		
+		alert(data.error.code);
+		showAndroidToast(data.error.code);
    }else{
-   		
-	  	if(~strresp.indexOf("loginid")){
+	   var lid = data.authorize.loginid;
+	   
+	   if(!(lid == null || lid == "")){
+		   ws_bin.send(JSON.stringify({"asset_index" : 1}));
+	   }else{
+		   alert(strresp);
+	   }
+	   
+	   alert(strresp);
+	   
+	   /*
+	   if(strresp.indexOf("loginid") > -1){
 	  		//Logged In
 	  		document.getElementById("form").style.visibility = "hidden";
 	  		document.getElementById("ta").style.visibility = "visible";
 
 	  		//Get active symbols
-	  		ws_bin.send(JSON.stringify({active_symbols:'full'}));
+	  		
 	   	}else{
 
 	   		//Subscribe to active symbols
-	   		if(~strresp.indexOf("active_symbols")){
+	   		if(strresp.indexOf("active_symbols") > -1){
 	   			var active_syms = data.active_symbols;
 	   		
 	   			var cb = "";
 	   			for (var i = 0; i < active_syms.length; i++) { 
-	   					//if(active_syms[i].symbol.toString().match(/\d+/g) == null){
-	   						cb = cb + '<option value ="' + i + '" selected=false >' + active_syms[i].symbol.toString() + '</option>' + '\n';
-	   					//}
-
-                 		syms.push(active_syms[i].symbol);
-                 		var cp = {"epoch": [], "quote": []};
-                 		currency_pairs.push(cp);
-                 		ws_bin.send(JSON.stringify({ticks: active_syms[i].symbol}));
+	   					if(active_syms[i].symbol.toString().indexOf("fx") > -1){
+	   						cb = cb + '<option value ="' + i + '" >' + active_syms[i].symbol.toString() + '</option>' + '\n';
+							syms.push(active_syms[i].symbol);
+                 			var cp = {"epoch": [], "quote": []};
+                 			currency_pairs.push(cp);
+							ws_bin.send(JSON.stringify({ticks: active_syms[i].symbol}));
+	   					}
 				}
 						document.getElementById("select_pair").innerHTML = cb;
 
 	   		}else{
-	   			if(~strresp.indexOf("epoch")){
+	   			if(strresp.indexOf("epoch") > -1){
 	   				if(data.msg_type == "tick"){
-	   					process(data);
+						alert(strresp);
+	   					//process(data);
                 	}
 	   			}else if(~strresp.indexOf("This market is presently closed.")){
 	   				//data.echo_req.ticks[0];
@@ -116,18 +112,20 @@ ws_bin.onmessage = function(msg) {
 	   				
 	   		}
 	   		
-	  	}
-
+	  	}*/
    }
+   
 };
 
 function authenticate(){
-	//ws_bin.send(JSON.stringify({authorize: btoken}));
-	if(!(ssid == "") || !(ssid == null)){
-		ws_iqoption.send(JSON.stringify({'msg': ssid, 'name': 'ssid'}));
+	var btoken = document.getElementById("_login-input0").value;
+	if(btoken != ""){
+		ws_bin.send(JSON.stringify({authorize: btoken}));
+	}else{
+		alert('Empty token!!!');
+		showAndroidToast('Empty token!!!');
 	}
-		
-	showAndroidToast('Worked');
+	
 }
 
 function process(data){
@@ -136,8 +134,6 @@ function process(data){
 	var quote = data.tick.quote;
 	var sym = data.tick.symbol;
 	var i = syms.indexOf(sym);
-
-	//if()
 
 	currency_pairs[i].epoch.push(epoch);
     currency_pairs[i].quote.push(quote);
