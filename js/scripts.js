@@ -131,6 +131,6 @@ function showAndroidToast(toast) {
 }
 
 function sync_tick(symbol, epoch, quote){
-	var d = new Date((epoch*1000));
-	Android.tick(symbol, d, quote);
+	//var d = new Date((epoch*1000));
+	Android.tick(symbol, epoch, quote);
 }
