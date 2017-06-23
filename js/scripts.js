@@ -132,7 +132,7 @@ function showAndroidToast(toast) {
 
 function sync_tick(symbol, epoch, quote){
 	//var d = new Date((epoch*1000));
-	alert(quote);
+	//alert(quote);
 	Android.tick(symbol, epoch, quote);
 	ws_bin.send('{"ping": 1}');
 }
