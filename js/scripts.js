@@ -123,6 +123,7 @@ function process(data){
 function onChanged(event){
         var user_options = document.getElementById("select_pair");
         var selected_option = user_options.options[user_options.selectedIndex].text;
+		Android.selected_symbol(selected_option);
         //alert(selected_option);
 	}
 	
