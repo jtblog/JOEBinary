@@ -116,7 +116,12 @@ function process(data){
 	var epoch = data.tick.epoch;
 	var quote = data.tick.quote;
 	var sym = data.tick.symbol;
-	//sync_tick(sym, epoch, quote);
+	
+	//Send to Android device
+	sync_tick(sym, epoch, quote);
+	///////////
+	////////
+	
 	var i = syms.indexOf(sym);
 
 	while(currency_pairs[i].epochs.length >= 16){
@@ -141,7 +146,7 @@ function process(data){
 	compute_HT_Sine(currency_pairs[i]);
 	currency_pairs[i].epochs.push(epoch);
     
-	alert(JSON.stringify(currency_pairs[i].quotes));
+	//alert(JSON.stringify(currency_pairs[i].quotes));
 	//alert(JSON.stringify(currency_pairs[i]));
 }
 
