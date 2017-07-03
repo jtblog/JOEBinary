@@ -73,11 +73,11 @@ ws_bin.onmessage = function(msg) {
 		var atv_syms = data.active_symbols;
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
-			
-				if(atv_syms[i].symbol.indexOf("GBP") > -1 || atv_syms[i].symbol.indexOf("EUR") > -1 || atv_syms[i].symbol.indexOf("R_") > -1){
-					cb = cb + '<option value ="' + i + '" >' + atv_syms[i].symbol.toString() + '</option>' + '\n';
-					syms.push(atv_syms[i].symbol);
-                	var cp = {"symbol" : '' + atv_syms[i].symbol + '', "epochs" : [], "quotes" : [], "v1" : 0.0, "iPeriod1" : 0.0, "cycle" : [], "sine" : [], "leadsine" : []};
+				var symb = atv_syms[i].symbol;
+				if(((symb.indexOf("GBP") > -1 || symb.indexOf("EUR")) && symb.indexOf("USD") > -1) > -1 || symb.indexOf("R_") > -1){
+					cb = cb + '<option value ="' + i + '" >' + symb.toString() + '</option>' + '\n';
+					syms.push(symb);
+                	var cp = {"symbol" : '' + symb + '', "epochs" : [], "quotes" : [], "v1" : 0.0, "iPeriod1" : 0.0, "cycle" : [], "sine" : [], "leadsine" : []};
                 	currency_pairs.push(cp);
 				}
 	   			
