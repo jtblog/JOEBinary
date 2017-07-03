@@ -77,7 +77,7 @@ ws_bin.onmessage = function(msg) {
 				if(symb.indexOf("GBPUSD") > -1 || 
 					symb.indexOf("EURUSD") > -1 ||
 					symb.indexOf("EURJPY") > -1 || 
-					symb.indexOf("USD/JPY") > -1 ||
+					symb.indexOf("USDJPY") > -1 ||
 					symb.indexOf("USDCHF") > -1 ||
 					symb.indexOf("EURGBP") > -1 ||
 					symb.indexOf("EURCHF") > -1 ||
@@ -153,7 +153,7 @@ function process(data){
 	while(currency_pairs[i].quotes.length >= 16){
 		currency_pairs[i].quotes.shift();
 	}
-	compute_HT_Sine(currency_pairs[i]);
+	//compute_HT_Sine(currency_pairs[i]);
 	currency_pairs[i].epochs.push(epoch);
     
 	//alert(JSON.stringify(currency_pairs[i].quotes));
