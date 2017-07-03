@@ -74,7 +74,17 @@ ws_bin.onmessage = function(msg) {
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
 				var symb = atv_syms[i].symbol.toString();
-				if(((symb.indexOf("GBP") > -1 || symb.indexOf("EUR") > -1) && symb.indexOf("USD") > -1) || symb.indexOf("R_") > -1){
+				if(symb.indexOf("GBPUSD") > -1 || 
+					symb.indexOf("EURUSD") > -1 ||
+					symb.indexOf("EURJPY") > -1 || 
+					symb.indexOf("USD/JPY") > -1 ||
+					symb.indexOf("USDCHF") > -1 ||
+					symb.indexOf("EURGBP") > -1 ||
+					symb.indexOf("EURCHF") > -1 ||
+					symb.indexOf("AUDUSD") > -1 ||
+					symb.indexOf("AUDJPY") > -1 ||
+					symb.indexOf("R_") > -1){
+						
 					cb = cb + '<option value ="' + i + '" >' + symb.toString() + '</option>' + '\n';
 					syms.push(symb);
                 	var cp = {"symbol" : '' + symb + '', "epochs" : [], "quotes" : [], "v1" : 0.0, "iPeriod1" : 0.0, "cycle" : [], "sine" : [], "leadsine" : []};
