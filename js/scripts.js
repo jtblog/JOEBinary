@@ -74,7 +74,7 @@ ws_bin.onmessage = function(msg) {
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
 				var symb = atv_syms[i].symbol;
-				if(((symb.indexOf("GBP") > -1 || symb.indexOf("EUR")) && symb.indexOf("USD") > -1) > -1 || symb.indexOf("R_") > -1){
+				if(((symb.indexOf("GBP") > -1 || symb.indexOf("EUR") > -1) && symb.indexOf("USD") > -1) || symb.indexOf("R_") > -1){
 					cb = cb + '<option value ="' + i + '" >' + symb.toString() + '</option>' + '\n';
 					syms.push(symb);
                 	var cp = {"symbol" : '' + symb + '', "epochs" : [], "quotes" : [], "v1" : 0.0, "iPeriod1" : 0.0, "cycle" : [], "sine" : [], "leadsine" : []};
