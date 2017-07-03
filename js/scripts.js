@@ -73,7 +73,7 @@ ws_bin.onmessage = function(msg) {
 		var atv_syms = data.active_symbols;
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
-				var symb = atv_syms[i].symbol;
+				var symb = atv_syms[i].symbol.toString();
 				if(((symb.indexOf("GBP") > -1 || symb.indexOf("EUR") > -1) && symb.indexOf("USD") > -1) || symb.indexOf("R_") > -1){
 					cb = cb + '<option value ="' + i + '" >' + symb.toString() + '</option>' + '\n';
 					syms.push(symb);
