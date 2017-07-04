@@ -81,8 +81,8 @@ ws_bin.onmessage = function(msg) {
 					symb.indexOf("USDCHF") > -1 ||
 					symb.indexOf("EURGBP") > -1 ||
 					symb.indexOf("EURCHF") > -1 ||
-					symb.indexOf("AUDUSD") > -1 ||
-					symb.indexOf("AUDJPY") > -1 ||
+					//symb.indexOf("AUDUSD") > -1 ||
+					//symb.indexOf("AUDJPY") > -1 ||
 					symb.indexOf("R_") > -1){
 						
 					cb = cb + '<option value ="' + i + '" >' + symb.toString() + '</option>' + '\n';
