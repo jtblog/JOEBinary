@@ -74,14 +74,15 @@ ws_bin.onmessage = function(msg) {
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
 				var symb = atv_syms[i].symbol.toString();
-				if(symb.indexOf("GBPUSD") > -1 || 
+				if( symb.indexOf("GBPUSD") > -1 || 
 					symb.indexOf("EURUSD") > -1 ||
-					symb.indexOf("EURJPY") > -1 || 
-					symb.indexOf("USDJPY") > -1 ||
+					//symb.indexOf("EURJPY") > -1 || 
+					//symb.indexOf("USDJPY") > -1 ||
 					symb.indexOf("USDCHF") > -1 ||
-					symb.indexOf("EURGBP") > -1 ||
-					symb.indexOf("EURCHF") > -1 ||
-					//symb.indexOf("AUDUSD") > -1 ||
+					//symb.indexOf("EURGBP") > -1 ||
+					//symb.indexOf("EURCHF") > -1 ||
+					symb.indexOf("AUDUSD") > -1 ||
+					symb.indexOf("NZDUSD") > -1 ||
 					//symb.indexOf("AUDJPY") > -1 ||
 					symb.indexOf("R_") > -1){
 						
