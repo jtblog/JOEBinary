@@ -14,6 +14,10 @@ $.ajaxPrefilter(function(options) {
 });
 */
 
+var a = 0;
+var b = 0;
+window.setInterval(ping, 15000);
+
 document.getElementById("ta").style.visibility = "hidden";
 
 var ws_bin = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=3956');
@@ -66,6 +70,7 @@ ws_bin.onmessage = function(msg) {
 	   
 	   	if(!(data.tick == null)){
 			//alert(strresp);
+			b++;
 	   		process(data);
 		}
 	   
@@ -74,7 +79,7 @@ ws_bin.onmessage = function(msg) {
 			var cb = "";
 	   		for (var i = 0; i < atv_syms.length; i++) { 
 				var symb = atv_syms[i].symbol.toString();
-				if( symb.indexOf("GBPUSD") > -1 || 
+				if( //symb.indexOf("GBPUSD") > -1 || 
 					symb.indexOf("EURUSD") > -1 ||
 					//symb.indexOf("EURJPY") > -1 || 
 					//symb.indexOf("USDJPY") > -1 ||
@@ -324,9 +329,15 @@ function showAndroidToast(toast) {
     Android.showToast(toast);
 }
 
+function ping(){
+	if(a == b){
+		ws_bin.send('{"ping": 1}');
+	}
+}
+
 function sync_tick(symbol, epoch, quote){
 	//var d = new Date((epoch*1000));
 	//alert(quote);
 	Android.tick(symbol, epoch, quote);
-	ws_bin.send('{"ping": 1}');
+	a = b;
 }
