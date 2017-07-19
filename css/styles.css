@@ -6,6 +6,7 @@ body
 #main-content{
     margin: 10% auto;
     width: 240px;
+	height: auto;
 }
 
 footer{
